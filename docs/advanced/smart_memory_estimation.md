@@ -20,7 +20,12 @@ Percona XtraBackup performs the backup procedure in two steps:
 
 ## How does `Smart memory estimation` work
 
-Starting with [Percona XtraBackup 8.0.30-23](../release-notes/8.0/8.0.30-23.0.md), while copying redo log entries during the backup phase, Percona XtraBackup computes the memory required for `prepare` phase. Percona XtraBackup also takes into consideration the number of InnoDB pages to be fetched from the disk. Then Percona XtraBackup checks the server's available free memory and uses that memory up to the limit specified in the `--use-free-memory-pct` option to run `--prepare`. The default value of `--use-free-memory-pct` option is 0. This means that the option is disabled by default. If, for example, you set the option to 50, 50% of the free memory is used to `prepare` a backup. The maximum allowed value is 100.
+Starting with [Percona XtraBackup 8.0.30-23](../release-notes/8.0/8.0.30-23.0.md), while copying redo log entries during the backup phase, Percona XtraBackup computes the memory required for `prepare` phase. Percona XtraBackup also takes into consideration the number of InnoDB pages to be fetched from the disk. 
+ 
+Then Percona XtraBackup checks the server's available free memory and uses that memory up to the limit specified in the [`--use-free-memory-pct`](..//xtrabackup_bin/xbk_option_reference.md#use-free-memory-pct) option to run `--prepare`. The default value of `--use-free-memory-pct` option is 0. This means that the option is disabled by default. If, for example, you set the option to 50, 50% of the free memory is used to `prepare` a backup. The maximum allowed value is 100.
+
+Starting with Percona XtraBackup 8.0.32-26, you can enable or disable the memory estimation during the backup phase with the [`--estimate-memory`](..//xtrabackup_bin/xbk_option_reference.md#estimate-memory) option. The default value is `OFF`. Enable the memory estimation with  `--estimate-memory=ON`. In the `prepare`phase, enable the [`--use-free-memory-pct`](..//xtrabackup_bin/xbk_option_reference.md#use-free-memory-pct) option by specifying the percentage of free memory to be used to `prepare` a backup. The `--use-free-memory-pct` value must be bigger than 0.
+
 
 ## Exapmple of `Smart memory estimation` usage
 

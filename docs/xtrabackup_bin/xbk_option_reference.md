@@ -280,7 +280,7 @@ beginning of a backup provided the status variable
 `innodb_buffer_pool_dump_status` reports that the dump has been
 completed.
 
-``````{.bash data-prompt="$"}
+```{.bash data-prompt="$"}
 $ xtrabackup --backup --dump-innodb-buffer-pool --target-dir=/home/user/backup
 ```
 
@@ -350,6 +350,12 @@ encryption thread, measured in bytes. It is passed directly to the
 xtrabackup child process.
 
 To adjust the chunk size for encrypted files, use [`--read-buffer-size`](#read-buffer-size) and `--encrypt-chunk-size`.
+
+### --estimate-memory(=#)
+
+This option is in [tech preview](../glossary.md#tech-preview). Before using this option in production, we recommend that you test restoring production from physical backups in your environment, and also use the alternative backup method for redundancy.
+
+Implemented in Percona XtraBackup 8.0.32-26, the option lets you enable or disable the [Smart memory estimation](..//advanced/smart_memory_estimation.md) feature. The default value is OFF. Enable the feature by setting `--estimate-memory=ON` in the backup phase and setting the `--use-free-memory-pct` option in the `--prepare` phase. If the `--estimate-memory` setting is disabled, the `--use-free-memory-pct` setting is ignored.
 
 ### --export()
 Create files necessary for exporting tables. See Restoring Individual
@@ -942,12 +948,11 @@ specified for the `--prepare` command.
 
 ### --use-free-memory-pct()
 
-This option has been implemented in Percona XtraBackup 8.0.30-23. 
-
 The `--use-free-memory-pct` is a [tech preview](../glossary.md#tech-preview) option. Before using this option in production, we recommend that you test restoring production from physical backups in your environment, and also use the alternative backup method for redundancy.
 
-This option controlls the amount of free memory that can be used to `--prepare` a backup.
-The default value is 0. If, for example, the option is set to 50, this means that 50% of free mamory are used to `--prepare` a backup. The maximum allowed value is 100.
+Implemented in Percona XtraBackup 8.0.30-23, this option lets you configure the [Smart memory estimation](..//advanced/smart_memory_estimation.md) feature. The option controlls the amount of free memory that can be used to `--prepare` a backup. The default value is 0. This means that the option is disabled by default. If, for example, the option is set to 50, this means that 50% of free mamory are used to `--prepare` a backup. The maximum allowed value is 100. 
+
+This option works, only if [`--estimate-memory`](#estimate-memory) option is enabled. If the `--estimate-memory` option is disabled, the `--use-free-memory-pct` setting is ignored.
 
 ### --use-memory()
 
